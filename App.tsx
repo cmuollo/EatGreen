@@ -1,20 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { RootStackParamList } from './src/navigation/types';
+import TabNavigator from './src/navigation/TabNavigator';
+
+// Schermate di dettaglio fuori dai tab
+import RecipeDetailScreen from './src/screens/RecipeDetailScreen';
+import RecipeFormScreen from './src/screens/RecipeFormScreen';
+import PantryItemFormScreen from './src/screens/PantryItemFormScreen';
+import AddMealScreen from './src/screens/MealPlanScreen'; // placeholder, verrà sostituito 
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        {/* Tab Navigator come schermata root */}
+        <Stack.Screen name="Tabs" component={TabNavigator} options={{ headerShown: false }} />
+
+        {/* Schermate di dettaglio/form accessibili da qualsiasi tab */}
+        <Stack.Screen name="RecipeDetail" component={RecipeDetailScreen} options={{ title: 'Ricetta' }} />
+        <Stack.Screen name="RecipeForm"   component={RecipeFormScreen}   options={{ title: 'Modifica Ricetta' }} />
+        <Stack.Screen name="PantryItemForm" component={PantryItemFormScreen} options={{ title: 'Prodotto' }} />
+        <Stack.Screen name="AddMeal"      component={AddMealScreen}      options={{ title: 'Aggiungi Pasto' }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
