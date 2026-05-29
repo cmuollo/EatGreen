@@ -1,4 +1,6 @@
 import React from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { DatabaseProvider } from './src/db/DatabaseProvider';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from './src/navigation/types';
@@ -14,6 +16,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
+    <DatabaseProvider>
     <NavigationContainer>
       <Stack.Navigator>
         {/* Tab Navigator come schermata root */}
@@ -26,5 +29,7 @@ export default function App() {
         <Stack.Screen name="AddMeal"      component={AddMealScreen}      options={{ title: 'Aggiungi Pasto' }} />
       </Stack.Navigator>
     </NavigationContainer>
+    <StatusBar style="auto" />
+    </DatabaseProvider>
   );
 }
