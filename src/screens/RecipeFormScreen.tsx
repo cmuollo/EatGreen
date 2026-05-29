@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 // TODO: implementare — schermata assegnata agli Ingegneri 2/3
-export default function RecipeFormScreen() {
+export function RecipeFormScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Form Ricetta</Text>
