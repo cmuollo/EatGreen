@@ -3,11 +3,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
 // Schermate principali (implementate dall'Ingegnere 3 e 2)
-import RecipeListScreen from '../screens/RecipeListScreen';
-import PantryScreen from '../screens/PantryScreen';
-import MealPlanScreen from '../screens/MealPlanScreen';
-import ShoppingListScreen from '../screens/ShoppingListScreen';
-import StatsScreen from '../screens/StatsScreen';
+import { RecipeListScreen } from '../screens/RecipeListScreen';
+import { PantryScreen } from '../screens/PantryScreen';
+import { MealPlanScreen } from '../screens/MealPlanScreen';
+import { ShoppingListScreen } from '../screens/ShoppingListScreen';
+import { StatsScreen } from '../screens/StatsScreen';
 
 const Tab = createBottomTabNavigator();
 
