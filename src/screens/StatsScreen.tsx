@@ -1,18 +1,61 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useMemo } from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useIngredientsStore, useMealPlanStore, useRecipesStore, useShoppingListStore } from '../store';
 
-// TODO: implementare — schermata assegnata agli Ingegneri 2/3
 export function StatsScreen() {
+  const { ingredients, fetchIngredients } = useIngredientsStore();
+  const { recipes, fetchRecipes } = useRecipesStore();
+  const { plans, fetchPlans } = useMealPlanStore();
+  const { lists, fetchLists } = useShoppingListStore();
+
+  useEffect(() => {
+    fetchIngredients();
+    fetchRecipes();
+    fetchPlans();
+    fetchLists();
+  }, [fetchIngredients, fetchRecipes, fetchPlans, fetchLists]);
+
+  const stats = useMemo(() => {
+    const totalIngredients = ingredients.length;
+    const totalRecipes = recipes.length;
+    const totalMealPlans = plans.length;
+    const totalShoppingLists = lists.length;
+    const totalShoppingItems = lists.reduce((sum, list) => sum + list.items.length, 0);
+
+    return [
+      { label: 'Ingredienti totali', value: totalIngredients },
+      { label: 'Ricette totali', value: totalRecipes },
+      { label: 'Piani alimentari', value: totalMealPlans },
+      { label: 'Liste spesa', value: totalShoppingLists },
+      { label: 'Elementi lista spesa', value: totalShoppingItems },
+    ];
+  }, [ingredients, recipes, plans, lists]);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Statistiche</Text>
-      <Text style={styles.sub}>In sviluppo...</Text>
-    </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>Statistiche</Text>
+
+      {stats.map((item) => (
+        <View key={item.label} style={styles.card}>
+          <Text style={styles.cardLabel}>{item.label}</Text>
+          <Text style={styles.cardValue}>{item.value}</Text>
+        </View>
+      ))}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F9FBE7' },
-  text:      { fontSize: 22, fontWeight: '600', color: '#2E7D32' },
-  sub:       { fontSize: 14, color: '#9E9E9E', marginTop: 8 },
+  container: { padding: 16, backgroundColor: '#f7f8f4' },
+  title: { fontSize: 28, fontWeight: '700', marginBottom: 16, color: '#173a1a' },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    padding: 16,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#edf0ea',
+  },
+  cardLabel: { color: '#4c5a4c', marginBottom: 6 },
+  cardValue: { fontSize: 28, fontWeight: '700', color: '#2e7d32' },
 });
